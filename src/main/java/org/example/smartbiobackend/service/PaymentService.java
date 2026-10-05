@@ -20,8 +20,9 @@ public class PaymentService {
     TicketService ticketService;
     BookingRepository bookingRepository;
 
-    public PaymentService(UserRepository userRepository, BookingRepository bookingRepository, TicketService ticketService) {
+    public PaymentService(UserRepository userRepository, BookingRepository bookingRepository, TicketService ticketService, PaymentRepository paymentRepository) {
         this.userRepository = userRepository;
+        this.paymentRepository = paymentRepository;
         this.bookingRepository = bookingRepository;
         this.ticketService = ticketService;
     }
