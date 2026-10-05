@@ -39,4 +39,16 @@ public class TicketService {
         return new TicketDTO(booking.getId(), movieTitle, showingStart, auditoriumName,
                 seats, booking.getCustomerName(), booking.getCustomerEmail());
     }
+
+    /*
+    . QR-Code is made from the "Ticket-" + bookingId
+     */
+    public String getTicketQRCode(int bookingId) throws IllegalArgumentException {
+        try {
+            return getTicket(bookingId).getQrCode();
+        }
+        catch (ResponseStatusException e) {
+            return e.getMessage();
+        }
+    }
 }

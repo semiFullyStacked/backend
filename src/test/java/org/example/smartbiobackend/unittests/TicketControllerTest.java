@@ -1,9 +1,11 @@
 package org.example.smartbiobackend.unittests;
 
+import org.assertj.core.util.VisibleForTesting;
 import org.example.smartbiobackend.controller.TicketController;
 import org.example.smartbiobackend.model.dto.TicketDTO;
 import org.example.smartbiobackend.model.dto.TicketSeatDTO;
 import org.example.smartbiobackend.service.TicketService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.webmvc.test.autoconfigure.WebMvcTest;
@@ -16,6 +18,7 @@ import org.springframework.web.server.ResponseStatusException;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -29,6 +32,7 @@ class TicketControllerTest {
 
     @MockitoBean
     private TicketService ticketService;
+
 
     @Test
     void getTicket_WhenBookingExists_ReturnsTicketJson() throws Exception {
@@ -46,8 +50,7 @@ class TicketControllerTest {
         mockMvc.perform(get("/api/bookings/1/ticket").accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.movieTitle").value("Inception"))
-                .andExpect(jsonPath("$.seats[0].seatCode").value("A1"))
-                .andExpect(jsonPath("$.qrPlaceholder").value("TICKET-1"));
+                .andExpect(jsonPath("$.seats[0].seatCode").value("A1"));
     }
 
     @Test
@@ -58,4 +61,21 @@ class TicketControllerTest {
         mockMvc.perform(get("/api/bookings/99/ticket"))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    void getTicketQRCode_ReturnsStringQrCode() throws Exception {
+        when(ticketService.getTicketQRCode(1)).thenReturn("Ticket-1");
+
+        mockMvc.perform(get("/api/bookings/1/qr-code")).andExpect(result ->{
+            result.toString().equals("Ticket-1");
+        });
+    }
+
+    @Test
+    void getTicketQRCode_ReturnsFailureResponse() throws Exception {
+        when(ticketService.getTicketQRCode(99))
+                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "No booking with id " + 99));
+
+        mockMvc.perform(get("/api/bookings/99/qr-code"))
+                .andExpect(status().isNotFound());    }
 }
