@@ -1,5 +1,6 @@
 package org.example.smartbiobackend.unittests;
 
+import org.example.smartbiobackend.exceptions.BookingNotFound;
 import org.example.smartbiobackend.model.*;
 import org.example.smartbiobackend.model.dto.PaymentRequest;
 import org.example.smartbiobackend.model.dto.TicketDTO;
@@ -23,6 +24,7 @@ import java.time.LocalDateTime;
 import java.util.Optional;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.assertThatThrownBy;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -81,7 +83,14 @@ class PaymentServiceTest {
         assertThat(saved).isNotNull();
 
         assertThat(saved.getAmount()).isEqualTo(10);
-
-
     }
+
+    @Test
+    void processPayment_ShouldThrowBookingNotFound() {
+        PaymentRequest request = new PaymentRequest(10, 99);
+        assertThatThrownBy(() -> paymentService.processPayment(request))
+                .isInstanceOf(BookingNotFound.class)
+                .hasMessageContaining("booking");
+    }
+
 }
