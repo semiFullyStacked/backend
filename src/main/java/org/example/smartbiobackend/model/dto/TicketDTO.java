@@ -32,7 +32,7 @@ public class TicketDTO {
     public List<TicketSeatDTO> getSeats() { return seats; }
     public String getCustomerName() { return customerName; }
     public String getCustomerEmail() { return customerEmail; }
-    public String getQrPlaceholder() { return "TICKET-" + bookingId; }
+    public String getQrCode() { return "TICKET-" + bookingId; }
 
     public int getTotalPrice() {
         return seats.stream().mapToInt(TicketSeatDTO::getPrice).sum();

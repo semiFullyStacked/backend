@@ -148,7 +148,7 @@ public class TicketServiceTest {
 
         TicketDTO ticket = ticketService.getTicket(1);
 
-        assertThat(ticket.getQrPlaceholder()).isEqualTo("TICKET-1");
+        assertThat(ticket.getQrCode()).isEqualTo("TICKET-1");
     }
 
 }
