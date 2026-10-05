@@ -72,7 +72,10 @@ class TicketControllerTest {
     }
 
     @Test
-    void getTicketQRCode_ReturnsException() throws Exception {
-        mockMvc.perform(get("/api/bookings/99/qr-code")).andExpect(status().is4xxClientError());
-    }
+    void getTicketQRCode_ReturnsFailureResponse() throws Exception {
+        when(ticketService.getTicketQRCode(99))
+                .thenThrow(new ResponseStatusException(HttpStatus.NOT_FOUND, "No booking with id " + 99));
+
+        mockMvc.perform(get("/api/bookings/99/qr-code"))
+                .andExpect(status().isNotFound());    }
 }

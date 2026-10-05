@@ -47,7 +47,7 @@ public class TicketService {
         try {
             return getTicket(bookingId).getQrCode();
         }
-        catch (IllegalArgumentException e) {
+        catch (ResponseStatusException e) {
             return e.getMessage();
         }
     }
