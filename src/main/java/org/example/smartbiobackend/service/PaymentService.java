@@ -1,9 +1,10 @@
 package org.example.smartbiobackend.service;
 
 import jakarta.persistence.EntityNotFoundException;
+import org.example.smartbiobackend.exceptions.BookingNotFound;
+import org.example.smartbiobackend.exceptions.UserNotFound;
 import org.example.smartbiobackend.model.Booking;
 import org.example.smartbiobackend.model.Payment;
-import org.example.smartbiobackend.model.Showing;
 import org.example.smartbiobackend.model.User;
 import org.example.smartbiobackend.model.dto.PaymentRequest;
 import org.example.smartbiobackend.model.dto.TicketDTO;
@@ -26,18 +27,17 @@ public class PaymentService {
     }
 
     @Transactional
-    public TicketDTO processPayment(PaymentRequest request) {
+    public TicketDTO processPayment(PaymentRequest request) throws BookingNotFound, UserNotFound {
         // Unpack DTO
         Booking booking = bookingRepository
                 .findById(request.bookingId())
-                .orElseThrow(() -> (new EntityNotFoundException("No showing with id: " + request.bookingId())));
-
+                .orElseThrow(() -> (new BookingNotFound("No booking with booking ID: " + request.bookingId())));
         // Handle guests if booking has no user to tie the booking to
         User user = null;
         if (booking.getUser() != null) {
             user = userRepository
                     .findById(booking.getUser().getId())
-                    .orElseThrow(() -> (new EntityNotFoundException("No user with user id: " + booking.getUser().getId())));
+                    .orElseThrow(() -> (new UserNotFound("No user found with user id: " + booking.getUser().getId())));
         }
         float amount = request.amount();
         // Save the payment

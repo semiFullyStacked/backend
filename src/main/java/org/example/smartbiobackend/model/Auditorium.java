@@ -15,6 +15,7 @@ public class Auditorium {
 
     public Auditorium() {
     }
+
     public Auditorium(String auditoriumName) {
         this.auditoriumName = auditoriumName;
     }

@@ -51,7 +51,7 @@ public class TicketServiceTest {
 
         TicketDTO ticket = ticketService.getTicket(1);
 
-        assertThat(ticket.getMovieTitle()).isEqualTo("Inception");
+        assertThat(ticket.movieTitle()).isEqualTo("Inception");
     }
 
     @Test
@@ -62,7 +62,7 @@ public class TicketServiceTest {
 
         TicketDTO ticket = ticketService.getTicket(1);
 
-        assertThat(ticket.getBookingId()).isEqualTo(1);
+        assertThat(ticket.bookingId()).isEqualTo(1);
     }
 
     @Test
@@ -72,7 +72,7 @@ public class TicketServiceTest {
 
         TicketDTO ticket = ticketService.getTicket(1);
 
-        assertThat(ticket.getShowingStart()).isEqualTo(LocalDateTime.of(2026, 10, 1, 20, 0));
+        assertThat(ticket.showingStart()).isEqualTo(LocalDateTime.of(2026, 10, 1, 20, 0));
     }
 
     @Test
@@ -82,7 +82,7 @@ public class TicketServiceTest {
 
         TicketDTO ticket = ticketService.getTicket(1);
 
-        assertThat(ticket.getAuditoriumName()).isEqualTo("Hall 1");
+        assertThat(ticket.auditoriumName()).isEqualTo("Hall 1");
     }
 
     @Test
@@ -95,8 +95,8 @@ public class TicketServiceTest {
 
         TicketDTO ticket = ticketService.getTicket(1);
 
-        assertThat(ticket.getSeats()).hasSize(1);
-        assertThat(ticket.getSeats().get(0).getSeatCode()).isEqualTo("A1");
+        assertThat(ticket.seats()).hasSize(1);
+        assertThat(ticket.seats().get(0).seatCode()).isEqualTo("A1");
     }
 
     @Test
@@ -109,8 +109,8 @@ public class TicketServiceTest {
 
         TicketDTO ticket = ticketService.getTicket(1);
 
-        assertThat(ticket.getSeats().getFirst().getTicketTypeName()).isEqualTo("Adult");
-        assertThat(ticket.getSeats().getFirst().getPrice()).isEqualTo(95);
+        assertThat(ticket.seats().getFirst().ticketTypeName()).isEqualTo("Adult");
+        assertThat(ticket.seats().getFirst().price()).isEqualTo(95);
     }
 
     @Test
@@ -120,8 +120,8 @@ public class TicketServiceTest {
 
         TicketDTO ticket = ticketService.getTicket(1);
 
-        assertThat(ticket.getCustomerName()).isEqualTo("Alice");
-        assertThat(ticket.getCustomerEmail()).isEqualTo("alice@example.com");
+        assertThat(ticket.customerName()).isEqualTo("Alice");
+        assertThat(ticket.customerEmail()).isEqualTo("alice@example.com");
     }
 
     @Test
