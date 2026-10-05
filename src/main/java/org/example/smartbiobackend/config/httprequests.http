@@ -4,8 +4,8 @@ Content-Type: application/json
 
 {
   "seatCode": "1b",
-  "userId": null,
+  "userId": 1,
   "guestName": "David",
   "guestMail": "Thomassen@email.dk",
-  "showingId": 0
+  "showingId": 1
 }

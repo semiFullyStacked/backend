@@ -8,7 +8,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.annotation.RestController;
 
-@RestController("/api/reservation")
+@RestController
+@RequestMapping("/api/reservation")
 public class BookingController {
 
     private final BookingService bookingService;
