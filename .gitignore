@@ -1,0 +1,18 @@
+# IDE
+ .idea/
+ *.iml
+ *.iws
+ out/
+ .vscode/
+ .classpath
+ .project
+ .settings/
+
+ # Build output
+ target/
+ *.class
+ *.log
+
+ # Local config and secrets
+ .env
+ application-local.properties
