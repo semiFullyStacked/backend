@@ -123,6 +123,14 @@ public class Movie {
         this.ageRestriction = ageRestriction;
     }
 
+    public int getRunTime() {
+        return runTime;
+    }
+
+    public void setRunTime(int runTime) {
+        this.runTime = runTime;
+    }
+
     @Override
     public String toString() {
         return "Movie{" +

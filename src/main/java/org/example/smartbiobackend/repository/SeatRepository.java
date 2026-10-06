@@ -7,4 +7,5 @@ import java.util.Optional;
 
 public interface SeatRepository extends JpaRepository<Seat, Integer> {
     Optional<Seat> findBySeatCode(String seatCode, int auditoriumId);
+    int countByAuditorium_Id(int auditoriumId);
 }
