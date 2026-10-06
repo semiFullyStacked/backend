@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="a3d7f455-baef-4bc1-95a4-0d4ea86c5dde" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/smartbiobackend/controller/UserController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/smartbiobackend/exceptions/EmailAlreadyInUseException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/smartbiobackend/exceptions/UserNotFoundException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/org/example/smartbiobackend/service/UserService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/org/example/smartbiobackend/repository/UserRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/org/example/smartbiobackend/repository/UserRepository.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -283,7 +279,7 @@
       <option name="presentableId" value="Default" />
       <updated>1791208303501</updated>
       <workItem from="1791208304832" duration="16296000" />
-      <workItem from="1791269931506" duration="2382000" />
+      <workItem from="1791269931506" duration="3494000" />
     </task>
     <servers />
   </component>
