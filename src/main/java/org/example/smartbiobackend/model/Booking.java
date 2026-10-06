@@ -40,6 +40,9 @@ public class Booking {
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     private List<BookingSeat> bookingSeats = new ArrayList<>();
 
+    // To handle unconfirmed bookings
+    private boolean isPaid = false;
+
 
     public Booking(Showing showing, String customerName, String customerEmail) {
         this.showing = showing;
@@ -50,6 +53,18 @@ public class Booking {
 
     public Booking() {
         //TODO Auto-generated constructor stub
+    }
+
+    public void setBookingSeats(List<BookingSeat> bookingSeats) {
+        this.bookingSeats = bookingSeats;
+    }
+
+    public boolean isPaid() {
+        return isPaid;
+    }
+
+    public void setPaid(boolean paid) {
+        isPaid = paid;
     }
 
     public int getId() {

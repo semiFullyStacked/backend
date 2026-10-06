@@ -36,7 +36,7 @@ public class BookingService {
         // 1. Fetch referenced entities
         Showing showing = showingRepository.findById(request.showingId()).orElseThrow(() -> new IllegalArgumentException("Showing not found"));
 
-        Seat seat = seatRepository.findBySeatCode(request.seatCode(), showing.getId())
+        Seat seat = seatRepository.findBySeatCode(request.seatCode(), showing.getAuditorium().getId())
                 .orElseThrow(() -> new IllegalArgumentException("Seat not found: " + request.seatCode()));
 
         // Fill out the booking information
@@ -52,11 +52,16 @@ public class BookingService {
             User user = userRepository.findById(request.userId())
                     .orElseThrow(() -> new IllegalArgumentException("User not found: " + request.userId()));
             booking.setUser(user);
+            booking.setCustomerName(user.getName());
+            booking.setCustomerEmail(user.getEmail());
+            recipientEmail = user.getEmail();
         } else {
             // Guest booking: do not attach a User entity
             if (request.guestMail() == null || request.guestMail().isBlank()) {
                 throw new IllegalArgumentException("Guest email is required for unregistered bookings.");
             }
+            booking.setCustomerName(request.guestName());
+            booking.setCustomerEmail(request.guestMail());
             recipientEmail = request.guestMail();
         }
 
