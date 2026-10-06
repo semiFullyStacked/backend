@@ -1,0 +1,289 @@
+POST http://localhost:8080/api/payments/tickets/purchase
+Content-Type: application/json
+Content-Length: 37
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "amount": 100,
+  "bookingId": 1
+}
+
+<> 2026-10-05T191641.200.json
+
+###
+
+POST http://localhost:8080/api/payments/tickets/purchase
+Content-Type: application/json
+Content-Length: 37
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "amount": 100,
+  "bookingId": 1
+}
+
+<> 2026-10-05T191529.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": 1,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T173626.201.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": 1,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T173357.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": 1,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T173257.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": 1,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T173253.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": 1,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T172943.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": 1,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T172939.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 119
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": null,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T172659.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 119
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": null,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T172521.500.json
+
+###
+
+POST http://localhost:8080/api/bookings/reserve
+Content-Type: application/json
+Content-Length: 119
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": null,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T172322.404.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2026-10-05T172313.400.json
+
+###
+
+POST http://localhost:8080/reserve
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+content-length: 0
+
+<> 2026-10-05T172307.404.json
+
+###
+
+GET http://localhost:8080/api/bookings/1/ticket
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+<> 2026-10-05T172300.200.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": 1,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 1
+}
+
+<> 2026-10-05T172248.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 116
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": 1,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 0
+}
+
+<> 2026-10-05T172242.500.json
+
+###
+
+POST http://localhost:8080/api/reservation/reserve
+Content-Type: application/json
+Content-Length: 119
+User-Agent: IntelliJ HTTP Client/IntelliJ IDEA 2025.2.1
+Accept-Encoding: br, deflate, gzip, x-gzip
+Accept: */*
+
+{
+  "seatCode": "1b",
+  "userId": null,
+  "guestName": "David",
+  "guestMail": "Thomassen@email.dk",
+  "showingId": 0
+}
+
+<> 2026-10-05T172208.500.json
+
+###
+

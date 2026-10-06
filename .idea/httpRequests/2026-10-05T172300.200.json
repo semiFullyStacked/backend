@@ -1,0 +1,11 @@
+{
+  "bookingId": 1,
+  "movieTitle": "Jaws",
+  "showingStart": "2026-10-05T17:22:05.67311",
+  "auditoriumName": "Horror Auditorium",
+  "seats": [],
+  "customerName": "David",
+  "customerEmail": "mail@mail.dk",
+  "qrCode": "TICKET-1",
+  "totalPrice": 0
+}
