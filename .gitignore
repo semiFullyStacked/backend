@@ -16,3 +16,6 @@
  # Local config and secrets
  .env
  application-local.properties
+
+# OS files
+.DS_Store
