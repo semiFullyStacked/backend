@@ -60,24 +60,28 @@ public class BookingService {
         Map<String, BookingItemRequest> itemBySeatCode = items.stream()
                 .collect(Collectors.toMap(BookingItemRequest::seatCode, Function.identity()));
 
+        Booking booking = new Booking();
+        booking.setShowing(showing);
+
         List<BookingSeat> bookedSeats = seats.stream()
                 .map(seat -> {
                     BookingItemRequest item = itemBySeatCode.get(seat.getSeatCode());
                     BookingSeat bookingSeat = new BookingSeat();
+                    bookingSeat.setBooking(booking);
                     TicketType type = ticketTypeById.get(item.ticketTypeId());
                     bookingSeat.setSeat(seat);
                     bookingSeat.setTicketType(type);
+                    bookingSeat.setTotalPrice(type.getPrice());
                     return bookingSeat;
                 }).toList();
+        booking.setBookingSeats(bookedSeats);
+
 
         if (ticketTypeById.size() != ticketTypeById.size()) {
             // If there is not the same amount of seats then theres a mismatch in the DB
             throw new IllegalArgumentException("Unknown ticket type in request");
         }
 
-        Booking booking = new Booking();
-        booking.setBookingSeats(bookedSeats);
-        booking.setShowing(showing);
         // 2. Initialize email variable here. This is so that we can reassign it with the guest email
         // If the user is registered we instead just grab their info from the repo and set that user on the booking.
         String recipientEmail = "";
