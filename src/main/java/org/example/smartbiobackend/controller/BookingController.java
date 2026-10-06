@@ -1,5 +1,6 @@
 package org.example.smartbiobackend.controller;
 
+import jakarta.validation.Valid;
 import org.example.smartbiobackend.model.dto.BookingRequest;
 import org.example.smartbiobackend.model.dto.BookingResponse;
 import org.example.smartbiobackend.service.BookingService;
@@ -19,7 +20,7 @@ public class BookingController {
     }
 
     @PostMapping("/reserve")
-    public ResponseEntity<BookingResponse> reserveSeat(@RequestBody BookingRequest request)  {
+    public ResponseEntity<BookingResponse> reserveSeat(@Valid @RequestBody BookingRequest request)  {
         BookingResponse response = bookingService.processBooking(request);
         return ResponseEntity.status(HttpStatus.CREATED).body(response);
     }
