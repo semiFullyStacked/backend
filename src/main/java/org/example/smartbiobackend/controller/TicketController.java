@@ -19,6 +19,6 @@ public class TicketController {
         return ticketService.getTicket(bookingId);
     }
 
-    //@GetMapping("/{bookingId}/qr-code")
-    //public String getQRCode(@PathVariable int bookingId) { return ticketService.getTicketQRCode(bookingId); }
+    @GetMapping("/{bookingId}/qr-code")
+    public String getQRCode(@PathVariable int bookingId) { return ticketService.getTicketQRCode(bookingId); }
 }
