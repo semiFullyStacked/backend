@@ -34,11 +34,12 @@ public class ShowingBookingsService {
     }
 
     private BookingSummaryDTO toBookingSummary(Booking booking) {
-        if (booking.getUser() != null) { // Registered user
-            List<String> seatCodes = booking.getSeat() != null
-                    ? List.of(booking.getSeat().getSeatCode())
-                    : List.of();
-            return new BookingSummaryDTO(
+        List<String> seatCodes = booking.getBookingSeats().stream()
+                .map(bookingSeat -> bookingSeat.getSeat().getSeatCode())
+                .toList();
+        // Registered user
+        if (booking.getUser() != null) {
+            new BookingSummaryDTO(
                     booking.getId(),
                     booking.getUser().getName(),
                     booking.getUser().getEmail(),
@@ -47,9 +48,6 @@ public class ShowingBookingsService {
         }
 
         // not registered user
-        List<String> seatCodes = booking.getBookingSeats().stream()
-                .map(bookingSeat -> bookingSeat.getSeat().getSeatCode())
-                .toList();
         return new BookingSummaryDTO(
                 booking.getId(),
                 booking.getCustomerName(),

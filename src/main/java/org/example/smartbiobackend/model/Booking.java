@@ -51,6 +51,10 @@ public class Booking {
     }
 
     public Booking(Showing showing, User user) {
+          this.showing = showing;
+          this.user = user;
+          this.customerName = user.getName();
+          this.customerEmail = user.getEmail();
     }
 
     public void setBookingSeats(List<BookingSeat> bookingSeats) {
