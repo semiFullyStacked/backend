@@ -1,10 +1,10 @@
 package org.example.smartbiobackend.controller;
 
+import org.example.smartbiobackend.model.dto.CreateEmployeeRequest;
 import org.example.smartbiobackend.model.dto.EmployeeDTO;
 import org.example.smartbiobackend.service.EmployeeService;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,5 +21,16 @@ public class EmployeeController {
     @GetMapping
     public List<EmployeeDTO> getAllEmployees() {
         return employeeService.getAllEmployees();
+    }
+
+    @PostMapping
+    public EmployeeDTO createEmployee(@RequestBody CreateEmployeeRequest request) {
+        return employeeService.createEmployee(request);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteEmployee(@PathVariable int id) {
+        employeeService.deleteEmployee(id);
+        return ResponseEntity.noContent().build();
     }
 }
