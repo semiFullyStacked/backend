@@ -3,8 +3,10 @@ package org.example.smartbiobackend.service;
 import org.example.smartbiobackend.model.Role;
 import org.example.smartbiobackend.model.StaffRoles;
 import org.example.smartbiobackend.model.User;
+import org.example.smartbiobackend.model.dto.AssignRolesRequest;
 import org.example.smartbiobackend.model.dto.CreateEmployeeRequest;
 import org.example.smartbiobackend.model.dto.EmployeeDTO;
+import org.example.smartbiobackend.repository.RoleRepository;
 import org.example.smartbiobackend.repository.UserRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -13,14 +15,17 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class EmployeeService {
 
     private final UserRepository userRepository;
+    private final RoleRepository roleRepository;
 
-    public EmployeeService(UserRepository userRepository) {
+    public EmployeeService(UserRepository userRepository, RoleRepository roleRepository) {
         this.userRepository = userRepository;
+        this.roleRepository = roleRepository;
     }
 
     private boolean isEmployee(User user) {
@@ -67,5 +72,34 @@ public class EmployeeService {
             throw new ResponseStatusException(HttpStatus.NOT_FOUND, "No employee with id " + id);
         }
         userRepository.deleteById(id);
+    }
+
+    public EmployeeDTO assignRoles(int userId, AssignRolesRequest request) {
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new ResponseStatusException(
+                        HttpStatus.NOT_FOUND, "No employee with id " + userId));
+
+        for (String roleName : request.roleNames()) {
+            if (!StaffRoles.NAMES.contains(roleName)) {
+                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown staff role: " + roleName);
+            }
+        }
+
+        Set<Role> roles = request.roleNames().stream()
+                .map(this::findOrCreateRole)
+                .collect(Collectors.toSet());
+
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return toEmployeeDTO(user);
+    }
+
+    private Role findOrCreateRole(String roleName) {
+        List<Role> existing = roleRepository.findByRoleName(roleName);
+        if (!existing.isEmpty()) {
+            return existing.getFirst();
+        }
+        return roleRepository.save(new Role(roleName));
     }
 }
