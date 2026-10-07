@@ -56,7 +56,6 @@ class ShowingBookingsServiceTest {
         Seat seat = new Seat("A1");
         TicketType ticketType = new TicketType("Adult", 95);
         booking.getBookingSeats().add(new BookingSeat(booking, seat, ticketType));
-
         when(showingRepository.findById(1)).thenReturn(Optional.of(showing));
         when(bookingRepository.findByShowing_IdAndIsPaidTrue(1)).thenReturn(List.of(booking));
 
@@ -73,8 +72,10 @@ class ShowingBookingsServiceTest {
         Showing showing = new Showing();
         User user = new User("Bob", "bob@example.com", LocalDate.of(1990, 1, 1));
         Seat seat = new Seat("B2");
-        Booking booking = new Booking(showing, user, seat);
+        Booking booking = new Booking(showing, user);
+        TicketType ticketType = new TicketType("Childrens ticket", 60);
 
+        booking.setBookingSeats(List.of(new BookingSeat(booking, seat, ticketType)));
         when(showingRepository.findById(1)).thenReturn(Optional.of(showing));
         when(bookingRepository.findByShowing_IdAndIsPaidTrue(1)).thenReturn(List.of(booking));
 
@@ -106,7 +107,8 @@ class ShowingBookingsServiceTest {
 
         User user = new User("Bob", "bob@example.com", LocalDate.of(1990, 1, 1));
         Seat seatB = new Seat("B2");
-        Booking userBooking = new Booking(showing, user, seatB);
+        Booking userBooking = new Booking(showing, user);
+        userBooking.setBookingSeats(List.of(new BookingSeat(userBooking, seatB, ticketType)));
 
         when(showingRepository.findById(1)).thenReturn(Optional.of(showing));
         when(bookingRepository.findByShowing_IdAndIsPaidTrue(1)).thenReturn(List.of(guestBooking, userBooking));

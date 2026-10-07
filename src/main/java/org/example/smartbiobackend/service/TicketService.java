@@ -33,7 +33,7 @@ public class TicketService {
                 .map(bookingSeat -> new TicketSeatDTO(
                         bookingSeat.getSeat().getSeatCode(),
                         bookingSeat.getTicketType().getTicketName(),
-                        bookingSeat.getTicketType().getPrice()))
+                        bookingSeat.getTotalPrice()))
                 .toList();
 
         return new TicketDTO(booking.getId(), movieTitle, showingStart, auditoriumName,

@@ -1,12 +1,10 @@
 package org.example.smartbiobackend.model;
 
 import jakarta.annotation.Nullable;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class Auditorium {
@@ -18,6 +16,9 @@ public class Auditorium {
 
     @Nullable
     private LocalDateTime lastCleanedAt;
+
+    @OneToMany
+    private List<Seat> seatList;
 
     public Auditorium() {
     }

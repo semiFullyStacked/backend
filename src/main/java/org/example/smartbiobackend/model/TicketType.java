@@ -2,6 +2,8 @@ package org.example.smartbiobackend.model;
 
 import jakarta.persistence.*;
 
+import java.math.BigDecimal;
+
 @Entity
 public class TicketType {
 
@@ -29,5 +31,21 @@ public class TicketType {
 
     public int getPrice() {
         return price;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setTicketName(String ticketName) {
+        this.ticketName = ticketName;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

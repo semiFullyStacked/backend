@@ -3,7 +3,6 @@ package org.example.smartbiobackend.model;
 import jakarta.persistence.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Entity
 public class Booking {
@@ -20,28 +19,24 @@ public class Booking {
     @JoinColumn
     private User user;
 
-    @ManyToOne
-    @JoinColumn(name = "seat_id")
-    private Seat seat;
-
-    public Booking(Showing showing, User user, Seat seat) {
-        this.showing = showing;
-        this.user = user;
-        this.seat = seat;
-    }
-
 
     @Column(nullable = false)
     private String customerName;
 
     @Column(nullable = false)
     private String customerEmail;
-
+    
     @OneToMany(mappedBy = "booking", cascade = CascadeType.ALL)
     private List<BookingSeat> bookingSeats = new ArrayList<>();
 
     // To handle unconfirmed bookings
     private boolean isPaid = false;
+      public Booking(Showing showing, User user, List<BookingSeat> seats) {
+        this.showing = showing;
+        this.user = user;
+        this.bookingSeats = seats;
+    }
+
 
 
     public Booking(Showing showing, String customerName, String customerEmail) {
@@ -53,6 +48,13 @@ public class Booking {
 
     public Booking() {
         //TODO Auto-generated constructor stub
+    }
+
+    public Booking(Showing showing, User user) {
+          this.showing = showing;
+          this.user = user;
+          this.customerName = user.getName();
+          this.customerEmail = user.getEmail();
     }
 
     public void setBookingSeats(List<BookingSeat> bookingSeats) {
@@ -90,21 +92,13 @@ public class Booking {
     public void setShowing(Showing showing) {
         this.showing = showing;
     }
-    public Seat getSeat() {
-        return seat;
-    }
-
-    public void setSeat(Seat seat) {
-        this.seat = seat;
-    }
-
     @Override
     public String toString() {
         return "Booking{" +
                 "id=" + id +
                 ", showing=" + showing +
                 ", user=" + user +
-                ", seat=" + seat +
+                ", seat=" + bookingSeats +
                 '}';
     }
 
@@ -127,4 +121,6 @@ public class Booking {
     public void setCustomerEmail(String customerEmail) {
         this.customerEmail = customerEmail;
     }
+
+
 }

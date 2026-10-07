@@ -2,6 +2,7 @@ package org.example.smartbiobackend.model;
 
 import jakarta.persistence.*;
 
+
 @Entity
 public class BookingSeat {
 
@@ -14,20 +15,23 @@ public class BookingSeat {
     private Booking booking;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "seat_id", nullable = false)
+    @JoinColumn(nullable = false)
     private Seat seat;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "ticket_type_id", nullable = false)
     private TicketType ticketType;
 
+    private int totalPrice;
+
     public BookingSeat() {
     }
 
-    public BookingSeat(Booking booking, Seat seat, TicketType ticketType) {
+    public BookingSeat(Booking booking, Seat seat, TicketType ticketType ) {
         this.booking = booking;
         this.seat = seat;
         this.ticketType = ticketType;
+        this.totalPrice = ticketType.getPrice();
     }
 
     public Seat getSeat() {
@@ -36,5 +40,29 @@ public class BookingSeat {
 
     public TicketType getTicketType() {
         return ticketType;
+    }
+
+    public void setSeat(Seat seat) {
+        this.seat = seat;
+    }
+
+    public void setTicketType(TicketType ticketType) {
+        this.ticketType = ticketType;
+    }
+
+    public int getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(int totalPrice) {
+        this.totalPrice = totalPrice;
+    }
+
+    public Booking getBooking() {
+        return booking;
+    }
+
+    public void setBooking(Booking booking) {
+        this.booking = booking;
     }
 }
