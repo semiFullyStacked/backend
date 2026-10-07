@@ -1,5 +1,6 @@
 package org.example.smartbiobackend.controller;
 
+import org.example.smartbiobackend.model.dto.AssignRolesRequest;
 import org.example.smartbiobackend.model.dto.CreateEmployeeRequest;
 import org.example.smartbiobackend.model.dto.EmployeeDTO;
 import org.example.smartbiobackend.service.EmployeeService;
@@ -32,5 +33,10 @@ public class EmployeeController {
     public ResponseEntity<Void> deleteEmployee(@PathVariable int id) {
         employeeService.deleteEmployee(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PutMapping("/{id}/roles")
+    public EmployeeDTO assignRoles(@PathVariable int id, @RequestBody AssignRolesRequest request) {
+        return employeeService.assignRoles(id, request);
     }
 }
