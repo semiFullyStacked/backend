@@ -4,6 +4,8 @@ import org.example.smartbiobackend.model.dto.RoomStatusDTO;
 import org.example.smartbiobackend.service.RoomStatusService;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/auditoriums")
 public class RoomStatusController {
@@ -22,5 +24,10 @@ public class RoomStatusController {
     @PostMapping("/{auditoriumId}/clean")
     public RoomStatusDTO markAsCleaned(@PathVariable int auditoriumId) {
         return roomStatusService.markAsCleaned(auditoriumId);
+    }
+
+    @GetMapping("")
+    public List<RoomStatusDTO> getAuditoriums() {
+        return roomStatusService.getAllRoomStatuses();
     }
 }

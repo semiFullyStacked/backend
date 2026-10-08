@@ -12,6 +12,7 @@ import org.springframework.web.server.ResponseStatusException;
 import org.example.smartbiobackend.model.Showing;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomStatusService {
@@ -26,6 +27,51 @@ public class RoomStatusService {
         this.auditoriumRepository = auditoriumRepository;
         this.showingRepository = showingRepository;
         this.seatRepository = seatRepository;
+    }
+
+    public List<RoomStatusDTO> getAllRoomStatuses() {
+        List<Auditorium> auditoriums = auditoriumRepository.findAll();
+        LocalDateTime now = LocalDateTime.now();
+
+        return auditoriums.stream().map(auditorium -> {
+            int auditoriumId = auditorium.getId();
+            List<Showing> showings = showingRepository.findByAuditorium_Id(auditoriumId);
+
+            LocalDateTime mostRecentEndTime = null;
+            String currentMovieTitle = null;
+            LocalDateTime currentShowingEndsAt = null;
+
+            for (Showing showing : showings) {
+                LocalDateTime endTime = showing.getStartTime().plusSeconds(showing.getMovie().getRunTime());
+
+                // Track most recently finished movie
+                if (endTime.isBefore(now) && (mostRecentEndTime == null || endTime.isAfter(mostRecentEndTime))) {
+                    mostRecentEndTime = endTime;
+                }
+
+                // Track currently playing movie
+                boolean isCurrentlyPlaying = !showing.getStartTime().isAfter(now) && endTime.isAfter(now);
+                if (isCurrentlyPlaying) {
+                    currentMovieTitle = showing.getMovie().getName();
+                    currentShowingEndsAt = endTime;
+                }
+            }
+
+            boolean needsCleaning = mostRecentEndTime != null
+                    && (auditorium.getLastCleanedAt() == null || auditorium.getLastCleanedAt().isBefore(mostRecentEndTime));
+
+            int totalSeats = seatRepository.countByAuditorium_Id(auditoriumId);
+
+            return new RoomStatusDTO(
+                    auditoriumId,
+                    auditorium.getAuditoriumName(),
+                    needsCleaning,
+                    currentMovieTitle,
+                    currentShowingEndsAt,
+                    auditorium.getLastCleanedAt(),
+                    totalSeats
+            );
+        }).collect(Collectors.toList());
     }
 
     public RoomStatusDTO getRoomStatus(int auditoriumId) {
