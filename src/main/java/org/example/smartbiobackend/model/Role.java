@@ -14,6 +14,9 @@ public class Role {
 
     private String roleName;
 
+    protected Role() {
+    }
+
     public Role(String roleName) {
         this.roleName = roleName;
     }

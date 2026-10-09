@@ -35,14 +35,14 @@ public class EmployeeService {
 
     private EmployeeDTO toEmployeeDTO(User user) {
         List<String> roleNames = user.getRoles().stream()
-                .map(Role::getRoleName)
+                .map(role -> role.getRoleName())
                 .toList();
 
         return new EmployeeDTO(user.getId(), user.getName(), user.getEmail(), roleNames);
     }
 
     @Transactional
-    public List<EmployeeDTO> getAllEmployees(){
+    public List<EmployeeDTO> getAllEmployees() {
         List<User> allUsers = userRepository.findAll();
 
         return allUsers.stream()
@@ -55,12 +55,13 @@ public class EmployeeService {
         if (!StaffRoles.NAMES.contains(request.roleName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Unknown staff role: " + request.roleName());
         }
+        Role role = findOrCreateRole(request.roleName());
 
         User user = new User();
         user.setName(request.name());
         user.setEmail(request.email());
         user.setPassword(request.password());
-        user.setRoles(Set.of(new Role(request.roleName())));
+        user.setRoles(Set.of(role));
 
         userRepository.save(user);
 
