@@ -14,6 +14,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
+import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
+import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 import javax.sql.DataSource;
 
@@ -23,6 +26,7 @@ public class ProjectConfig {
 
     @Autowired
     private DataSource dataSource; // Tells it to use the data source url from application.properties
+
     @Autowired
     public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
         auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
@@ -41,22 +45,32 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth ->
-                auth.requestMatchers("/admin/**").hasRole("ADMIN")
-                        .requestMatchers("/errors/").permitAll()
-                        //  .requestMatchers("/api/employees/**").hasRole("Employee")
-                        .requestMatchers("/api/employees/**").denyAll()
-                        .requestMatchers("/api/auditoriums/").hasRole("Employee")
-                        .requestMatchers("/api/payments/**").permitAll()
-                        .requestMatchers("/h2-console/**").hasRole("Manager")
-                        .anyRequest().authenticated()
-        ).exceptionHandling((exceptionHandling ) -> {
-                  exceptionHandling.accessDeniedPage("/error/403.html");
+                        auth.requestMatchers("/admin/**").hasRole("ADMIN")
+                                .requestMatchers("/login.html", "/css/**", "/js/**", "/error/**").permitAll()                                //.requestMatchers("/api/employees/**").hasRole("Employee")
+                                .requestMatchers("/api/employees/**").denyAll()
+                                .requestMatchers("/api/auditoriums/").hasRole("Employee")
+                                .requestMatchers("/api/payments/**").permitAll()
+                                .requestMatchers("/h2-console/**").hasRole("Manager")
+                                .anyRequest().authenticated()
+
+                ).csrf(csrf -> csrf
+                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
+                .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
+                .exceptionHandling((exceptionHandling) -> {
+                    exceptionHandling.accessDeniedPage("/error/403.html");
                 })
-                .formLogin(httpSecurityFormLoginConfigurer -> {
-                 //   httpSecurityFormLoginConfigurer.loginPage("/api/login").isCustomLoginPage();
+                .formLogin(form -> {
+                    form.loginProcessingUrl("/login")
+                            .defaultSuccessUrl("/", true)
+                            .successHandler((req, res, auth) -> res.setStatus(200))
+                            .failureHandler((req, res, ex) -> res.setStatus(401))
+                            .permitAll();
                 }).logout(Customizer.withDefaults());
+        http.csrf(csrf -> csrf.disable());
         return http.build();
     }
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
