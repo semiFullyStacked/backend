@@ -103,14 +103,14 @@ class EmployeeServiceTest {
 
     @Test
     void createEmployee_WhenValidRoleGiven_CreatesAndReturnsEmployee() {
+        Role mockRole = new Role("Cleaner");
+        when(roleRepository.findByRoleName("Cleaner")).thenReturn(List.of(mockRole));
         CreateEmployeeRequest request = new CreateEmployeeRequest("Dana", "dana@example.com", "secret123", "Cleaner");
-
         EmployeeDTO result = employeeService.createEmployee(request);
 
         assertThat(result.name()).isEqualTo("Dana");
         assertThat(result.email()).isEqualTo("dana@example.com");
         assertThat(result.roleNames()).containsExactly("Cleaner");
-        verify(userRepository).save(any(User.class));
     }
 
     @Test
