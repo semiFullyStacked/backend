@@ -26,6 +26,9 @@ public class User {
     @Column(nullable = true)
     private String password;
 
+    @Column(nullable = false)
+    private Boolean enabled = true;
+
     @ManyToMany
     @JoinTable(
     name = "user_roles",
@@ -41,6 +44,7 @@ public class User {
         this.name = name;
         this.email = email;
         this.birthday = birthday;
+        this.enabled = true;
     }
 
     public User(String name, String email, LocalDate birthday) {
@@ -52,6 +56,14 @@ public class User {
 
     public User() {
 
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public int getId() {

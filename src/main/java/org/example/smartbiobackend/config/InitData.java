@@ -4,6 +4,7 @@ import org.example.smartbiobackend.model.*;
 import org.example.smartbiobackend.repository.*;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -48,24 +49,26 @@ public class InitData implements CommandLineRunner {
         Role cleaner = new Role("Cleaner");
         Role admin = new Role("Admin");
         Role serviceDesk = new Role("ServiceDesk");
+        Role employee = new Role("Employee");
+
 
         roleRepository.save(manager);
         roleRepository.save(cleaner);
         roleRepository.save(admin);
         roleRepository.save(serviceDesk);
-
+roleRepository.save(employee);
         User managerUser = new User();
         managerUser.setName("Sarah Manager");
         managerUser.setEmail("sarah@smartbio.dk");
-        managerUser.setPassword("password");
-        managerUser.setRoles(Set.of(manager));
+        managerUser.setPassword(new BCryptPasswordEncoder().encode("password"));
+        managerUser.setRoles(Set.of(manager, employee));
 
         userRepository.save(managerUser);
 
         User cleanerUser = new User();
         cleanerUser.setName("John Cleaner");
         cleanerUser.setEmail("john@smartbio.dk");
-        cleanerUser.setPassword("password");
+        cleanerUser.setPassword(new BCryptPasswordEncoder().encode("password"));
         cleanerUser.setRoles(Set.of(cleaner));
 
         userRepository.save(cleanerUser);
@@ -73,7 +76,7 @@ public class InitData implements CommandLineRunner {
         User adminUser = new User();
         adminUser.setName("Alice Admin");
         adminUser.setEmail("alice@smartbio.dk");
-        adminUser.setPassword("password");
+        adminUser.setPassword(new BCryptPasswordEncoder().encode("password"));
         adminUser.setRoles(Set.of(admin));
 
         userRepository.save(adminUser);
@@ -81,7 +84,7 @@ public class InitData implements CommandLineRunner {
         User serviceDeskUser = new User();
         serviceDeskUser.setName("Bob Service Desk");
         serviceDeskUser.setEmail("bob@smartbio.dk");
-        serviceDeskUser.setPassword("password");
+        serviceDeskUser.setPassword(new BCryptPasswordEncoder().encode("password"));
         serviceDeskUser.setRoles(Set.of(serviceDesk));
 
         userRepository.save(serviceDeskUser);
