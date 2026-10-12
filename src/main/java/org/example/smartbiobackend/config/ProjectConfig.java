@@ -3,6 +3,7 @@ package org.example.smartbiobackend.config;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -48,7 +49,7 @@ public class ProjectConfig {
                                 .requestMatchers("/api/employees/**").hasAuthority("Employee")
                                 .requestMatchers("/api/csrf-init").permitAll()
                                 .requestMatchers("/api/movies/**").permitAll()
-                                .requestMatchers("/api/showings/**").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/showings/**").permitAll()
                                 .requestMatchers("/api/bookings/**").permitAll()
                                 .requestMatchers("/api/tickettypes/**").permitAll()
                                 .requestMatchers("/api/auditoriums/**").hasAuthority("Employee")
