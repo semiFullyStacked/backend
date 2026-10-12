@@ -63,6 +63,10 @@ public class Movie {
         this.ageRestriction = ageRestriction;
     }
 
+    public int getId() {
+        return id;
+    }
+
     public void setId(int movieId) {
         this.id = movieId;
     }
