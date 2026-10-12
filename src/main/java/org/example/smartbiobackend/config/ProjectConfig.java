@@ -45,12 +45,13 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/admin/**").hasRole("ADMIN")
-                                .requestMatchers("/login.html", "/css/**", "/js/**", "/error/**").permitAll()                                //.requestMatchers("/api/employees/**").hasRole("Employee")
-                                .requestMatchers("/api/employees/**").denyAll()
+                        auth.requestMatchers("/admin/**").hasRole("Admin")
+                                .requestMatchers("/api/auth/me").permitAll()
+                                .requestMatchers("/login.html", "/css/**", "/js/**", "/error/**").permitAll()                              //.requestMatchers("/api/employees/**").hasRole("Employee")
+                                .requestMatchers("/api/ employees/**").denyAll()
                                 .requestMatchers("/api/auditoriums/").hasRole("Employee")
                                 .requestMatchers("/api/payments/**").permitAll()
-                                .requestMatchers("/h2-console/**").hasRole("Manager")
+                                .requestMatchers("/h2-console/**").hasRole("Admin")
                                 .anyRequest().authenticated()
 
                 ).csrf(csrf -> csrf
