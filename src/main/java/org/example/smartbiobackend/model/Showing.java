@@ -36,6 +36,19 @@ public class Showing {
     }
 
 
+    public Showing(Auditorium auditorium, Movie movie, LocalDate date, LocalDateTime startTime) {
+        this.auditorium = auditorium;
+        this.movie = movie;
+        this.date = date;
+        this.startTime = startTime;
+    }
+
+    public Showing(Movie movie, Auditorium auditorium, LocalDateTime startTime) {
+        this.movie = movie;
+        this.auditorium = auditorium;
+        this.startTime = startTime;
+    }
+
     public LocalDateTime getStartTime() {
         return startTime;
     }
@@ -52,7 +65,6 @@ public class Showing {
         this.id = showingId;
     }
 
-
     public LocalDate getDate() {
         return date;
     }
@@ -61,17 +73,6 @@ public class Showing {
         this.date = date;
     }
 
-    public Showing(Auditorium auditorium, Movie movie, LocalDate date, LocalDateTime startTime) {
-        this.auditorium = auditorium;
-        this.movie = movie;
-        this.date = date;
-        this.startTime = startTime;
-    }
-    public Showing(Movie movie, Auditorium auditorium, LocalDateTime startTime) {
-        this.movie = movie;
-        this.auditorium = auditorium;
-        this.startTime = startTime;
-    }
     public Movie getMovie() {
         return movie;
     }
@@ -87,6 +88,7 @@ public class Showing {
     public void setAuditorium(Auditorium auditorium) {
         this.auditorium = auditorium;
     }
+
     @Override
     public String toString() {
         return "Showing{" +

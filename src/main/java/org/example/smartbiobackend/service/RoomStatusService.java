@@ -1,6 +1,7 @@
 package org.example.smartbiobackend.service;
 
 import org.example.smartbiobackend.model.Auditorium;
+import org.example.smartbiobackend.model.Showing;
 import org.example.smartbiobackend.model.dto.RoomStatusDTO;
 import org.example.smartbiobackend.repository.AuditoriumRepository;
 import org.example.smartbiobackend.repository.SeatRepository;
@@ -8,10 +9,10 @@ import org.example.smartbiobackend.repository.ShowingRepository;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
-import java.util.stream.Collectors;
-import org.example.smartbiobackend.model.Showing;
+
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class RoomStatusService {
@@ -29,7 +30,7 @@ public class RoomStatusService {
     }
 
 
-      public List<RoomStatusDTO> getAllRoomStatuses() {
+    public List<RoomStatusDTO> getAllRoomStatuses() {
         List<Auditorium> auditoriums = auditoriumRepository.findAll();
         LocalDateTime now = LocalDateTime.now();
 

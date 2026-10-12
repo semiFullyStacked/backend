@@ -28,8 +28,6 @@ public class Seat {
     }
 
 
-
-
     public int getId() {
         return id;
     }

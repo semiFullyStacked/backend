@@ -7,12 +7,8 @@ import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
@@ -28,7 +24,7 @@ public class ProjectConfig {
     private DataSource dataSource; // Tells it to use the data source url from application.properties
 
     @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
+    public void configAuthentication(AuthenticationManagerBuilder auth) {
         auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
                 .dataSource(dataSource)
                 .usersByUsernameQuery("select name, password, enabled from users where name=?")
@@ -43,7 +39,7 @@ public class ProjectConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.authorizeHttpRequests(auth ->
                         auth.requestMatchers("/admin/**").hasRole("Admin")
                                 .requestMatchers("/api/auth/me").permitAll()
@@ -58,7 +54,7 @@ public class ProjectConfig {
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                .exceptionHandling((exceptionHandling) -> {
+                .exceptionHandling(exceptionHandling -> {
                     exceptionHandling.accessDeniedPage("/error/403.html");
                 })
                 .formLogin(form -> {
@@ -68,7 +64,7 @@ public class ProjectConfig {
                             .failureHandler((req, res, ex) -> res.setStatus(401))
                             .permitAll();
                 }).logout(Customizer.withDefaults());
-        http.csrf(csrf -> csrf.disable());
+        // http.csrf(csrf -> csrf.disable());
         return http.build();
     }
 

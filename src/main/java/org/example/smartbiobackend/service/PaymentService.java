@@ -1,6 +1,5 @@
 package org.example.smartbiobackend.service;
 
-import jakarta.persistence.EntityNotFoundException;
 import org.example.smartbiobackend.exceptions.BookingNotFound;
 import org.example.smartbiobackend.exceptions.UserNotFound;
 import org.example.smartbiobackend.model.Booking;
@@ -8,7 +7,9 @@ import org.example.smartbiobackend.model.Payment;
 import org.example.smartbiobackend.model.User;
 import org.example.smartbiobackend.model.dto.PaymentRequest;
 import org.example.smartbiobackend.model.dto.TicketDTO;
-import org.example.smartbiobackend.repository.*;
+import org.example.smartbiobackend.repository.BookingRepository;
+import org.example.smartbiobackend.repository.PaymentRepository;
+import org.example.smartbiobackend.repository.UserRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -42,7 +43,7 @@ public class PaymentService {
         }
         float amount = request.amount();
         // Save the payment
-        Payment payment = new Payment(amount,user, booking);
+        Payment payment = new Payment(amount, user, booking);
         paymentRepository.save(payment);
 
         // Confirm booking

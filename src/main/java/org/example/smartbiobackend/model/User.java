@@ -31,13 +31,13 @@ public class User {
 
     @ManyToMany
     @JoinTable(
-    name = "user_roles",
-    joinColumns = @JoinColumn(name = "user_id"),
-    inverseJoinColumns = @JoinColumn(name = "role_id"))
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private Set<Role> roles = new HashSet<>();
 
     /***
-    Constructor without password for initial creation
+     Constructor without password for initial creation
      */
     public User(int userId, String name, String email, LocalDate birthday) {
         this.id = userId;

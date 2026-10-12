@@ -40,14 +40,13 @@ public class TicketService {
                 seats, booking.getCustomerName(), booking.getCustomerEmail());
     }
 
-    /*
-    . QR-Code is made from the "Ticket-" + bookingId
+    /**
+     QR-Code is made from the "Ticket-" + bookingId
      */
     public String getTicketQRCode(int bookingId) throws IllegalArgumentException {
         try {
             return getTicket(bookingId).getQrCode();
-        }
-        catch (ResponseStatusException e) {
+        } catch (ResponseStatusException e) {
             return e.getMessage();
         }
     }
