@@ -26,18 +26,25 @@ public class User {
     @Column(nullable = true)
     private String password;
 
-    @OneToMany
-    @JoinColumn
-    Set<Role> roles = new HashSet<>();
+    @Column(nullable = false)
+    private Boolean enabled = true;
+
+    @ManyToMany
+    @JoinTable(
+            name = "user_roles",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
 
     /***
-    Constructor without password for initial creation
+     Constructor without password for initial creation
      */
     public User(int userId, String name, String email, LocalDate birthday) {
         this.id = userId;
         this.name = name;
         this.email = email;
         this.birthday = birthday;
+        this.enabled = true;
     }
 
     public User(String name, String email, LocalDate birthday) {
@@ -49,6 +56,14 @@ public class User {
 
     public User() {
 
+    }
+
+    public Boolean getEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public int getId() {

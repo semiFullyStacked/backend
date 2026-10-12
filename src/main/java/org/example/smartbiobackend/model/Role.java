@@ -1,9 +1,8 @@
 package org.example.smartbiobackend.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+
+import java.util.Set;
 
 @Entity
 public class Role {
@@ -13,6 +12,12 @@ public class Role {
     private int id;
 
     private String roleName;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users;
+
+    public Role() {
+    }
 
     public Role(String roleName) {
         this.roleName = roleName;

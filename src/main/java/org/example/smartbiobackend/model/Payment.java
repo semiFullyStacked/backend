@@ -1,7 +1,6 @@
 package org.example.smartbiobackend.model;
 
 import jakarta.persistence.*;
-import org.springframework.beans.factory.annotation.Value;
 
 @Entity
 public class Payment {
@@ -17,21 +16,21 @@ public class Payment {
     @OneToOne
     @JoinColumn(name = "booking_id")
     Booking booking;
-
     @Id
    @GeneratedValue(strategy = GenerationType.IDENTITY)
-   public int id;
+   private int id;
 
-   public float amount;
 
-   @Value("DKK")
-   public String currency;
+   private float amount;
+
+   private String currency = "DKK";
 
 
 
    @ManyToOne
    @JoinColumn(name = "user_id")
    public User user;
+
 
     public Booking getBooking() {
         return booking;
