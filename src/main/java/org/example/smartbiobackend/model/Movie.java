@@ -14,7 +14,7 @@ public class Movie {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private Movie(String name) {
+    public Movie(String name) {
         this.name = name;
     }
 
