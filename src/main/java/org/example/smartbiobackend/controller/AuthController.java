@@ -18,11 +18,12 @@ public class AuthController {
     @GetMapping("/me")
     public ResponseEntity<?> getCurrentUser(Authentication authentication) {
         if (authentication == null || !authentication.isAuthenticated() || authentication instanceof AnonymousAuthenticationToken) {
-        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();
         }
         return ResponseEntity.ok(Map.of(
                 "username", authentication.getName(),
                 "roles", authentication.getAuthorities().stream().map(GrantedAuthority::getAuthority).toList()
         ));
 
-    }}
+    }
+}

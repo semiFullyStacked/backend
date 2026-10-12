@@ -10,8 +10,9 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
-import java.util.stream.IntStream;
 import java.util.Set;
+import java.util.stream.IntStream;
+
 @Configuration
 public class InitData implements CommandLineRunner {
 
@@ -25,9 +26,9 @@ public class InitData implements CommandLineRunner {
     private final TicketTypeRepository ticketTypeRepository;
 
     public InitData(UserRepository userRepository, MovieRepository movieRepository,
-            AuditoriumRepository auditoriumRepository, SeatRepository seatRepository,
-            ShowingRepository showingRepository, RoleRepository roleRepository, BookingRepository bookingRepository,
-            TicketTypeRepository ticketTypeRepository) {
+                    AuditoriumRepository auditoriumRepository, SeatRepository seatRepository,
+                    ShowingRepository showingRepository, RoleRepository roleRepository, BookingRepository bookingRepository,
+                    TicketTypeRepository ticketTypeRepository) {
         this.userRepository = userRepository;
         this.movieRepository = movieRepository;
         this.auditoriumRepository = auditoriumRepository;
@@ -56,7 +57,7 @@ public class InitData implements CommandLineRunner {
         roleRepository.save(cleaner);
         roleRepository.save(admin);
         roleRepository.save(serviceDesk);
-roleRepository.save(employee);
+        roleRepository.save(employee);
         User managerUser = new User();
         managerUser.setName("Sarah Manager");
         managerUser.setEmail("sarah@smartbio.dk");
