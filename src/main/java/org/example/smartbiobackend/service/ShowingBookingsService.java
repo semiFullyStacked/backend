@@ -37,22 +37,10 @@ public class ShowingBookingsService {
         List<String> seatCodes = booking.getBookingSeats().stream()
                 .map(bookingSeat -> bookingSeat.getSeat().getSeatCode())
                 .toList();
-        // Registered user
-        if (booking.getUser() != null) {
-            new BookingSummaryDTO(
-                    booking.getId(),
-                    booking.getUser().getName(),
-                    booking.getUser().getEmail(),
-                    seatCodes
-            );
-        }
 
-        // not registered user
-        return new BookingSummaryDTO(
-                booking.getId(),
-                booking.getCustomerName(),
-                booking.getCustomerEmail(),
-                seatCodes
-        );
+        if (booking.getUser() != null) {
+            return new BookingSummaryDTO(booking.getId(), booking.getUser().getName(), booking.getUser().getEmail(), seatCodes);
+        }
+        return new BookingSummaryDTO(booking.getId(), booking.getCustomerName(), booking.getCustomerEmail(), seatCodes);
     }
 }

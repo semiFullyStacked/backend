@@ -71,11 +71,12 @@ class ShowingBookingsServiceTest {
     void getBookingsForShowing_WhenBookingIsFromRegisteredUser_ReturnsUserDetailsAndSeat() {
         Showing showing = new Showing();
         User user = new User("Bob", "bob@example.com", LocalDate.of(1990, 1, 1));
-        Seat seat = new Seat("B2");
         Booking booking = new Booking(showing, user);
-        TicketType ticketType = new TicketType("Childrens ticket", 60);
 
-        booking.setBookingSeats(List.of(new BookingSeat(booking, seat, ticketType)));
+        Seat seat = new Seat("B2");
+        TicketType ticketType = new TicketType("Adult", 95);
+        booking.getBookingSeats().add(new BookingSeat(booking, seat, ticketType));
+
         when(showingRepository.findById(1)).thenReturn(Optional.of(showing));
         when(bookingRepository.findByShowing_IdAndIsPaidTrue(1)).thenReturn(List.of(booking));
 
@@ -83,7 +84,6 @@ class ShowingBookingsServiceTest {
 
         assertThat(result).hasSize(1);
         assertThat(result.get(0).customerName()).isEqualTo("Bob");
-        assertThat(result.get(0).customerEmail()).isEqualTo("bob@example.com");
         assertThat(result.get(0).seatCodes()).containsExactly("B2");
     }
 

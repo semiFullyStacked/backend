@@ -8,11 +8,8 @@ import org.springframework.context.annotation.Configuration;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.util.HashMap;
+import java.time.LocalTime;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 @Configuration
 public class InitData implements CommandLineRunner {
@@ -39,28 +36,13 @@ public class InitData implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-        dataSetup();
+        setupABooking();
+        seedMoviesAndShowings();
     }
 
-
-
-    private void dataSetup() {
+    private void setupABooking() {
         User user = new User("David", "mail@mail.dk", LocalDate.now());
         userRepository.save(user);
-
-        Auditorium smallScene = new Auditorium("Small Scene");
-        Auditorium largeScene = new Auditorium("Big Scene");
-        auditoriumRepository.save(smallScene);
-        auditoriumRepository.save(largeScene);
-
-        seatRepository.saveAll(createSeats(smallScene, 20, 12)); // 1A to 20L, 240 seats
-        seatRepository.saveAll(createSeats(largeScene, 25, 16)); // 1A to 25P, 400 seats
-
-        TicketType ticketType = new TicketType("Childrens ticket", 400);
-        TicketType ticketType2 = new TicketType("Adult ticket", 800);
-
-        ticketTypeRepository.save(ticketType);
-        ticketTypeRepository.save(ticketType2);
 
         Movie movie = new Movie("Jaws", 2000,
                 "Shark movie"
@@ -68,38 +50,82 @@ public class InitData implements CommandLineRunner {
                 LocalDate.of(1975,6,20), 18);
 
         movieRepository.save(movie);
-
+        Auditorium auditorium = new Auditorium("Horror Auditorium");
+        auditoriumRepository.save(auditorium);
         Showing showing = new Showing();
-        showing.setAuditorium(smallScene);
+        showing.setAuditorium(auditorium);
         showing.setMovie(movie);
         showing.setStartTime(LocalDateTime.now());
         showing.setDate(LocalDate.now());
         showingRepository.save(showing);
 
+        Seat seat = new Seat(auditorium, "1b");
+        seatRepository.save(seat);
 
-
+        TicketType ticketType = new TicketType("Adult", 95);
+        ticketTypeRepository.save(ticketType);
 
         Booking booking = new Booking(showing, user);
-        Seat seat = seatRepository.findBySeatCodeAndAuditorium_Id("1C", 1);
-        Seat seat2 = seatRepository.findBySeatCodeAndAuditorium_Id("1B", 1);
-        booking.setBookingSeats(List.of(new BookingSeat(booking, seat,  ticketType), new BookingSeat(booking, seat2, ticketType)));
-        booking.setCustomerName(user.getName());
-        booking.setCustomerEmail(user.getEmail());
+        booking.getBookingSeats().add(new BookingSeat(booking, seat, ticketType));
         bookingRepository.save(booking);
 
         System.out.println(booking);
     }
 
-    private List<Seat> createSeats(Auditorium auditorium, int rows, int seatsPerRow) {
-        return IntStream.rangeClosed(1, rows)
-                .boxed()
-                .flatMap(row -> IntStream.range(0, seatsPerRow)
-                        .mapToObj(i -> {
-                            Seat seat = new Seat();
-                            seat.setAuditorium(auditorium);
-                            seat.setSeatCode(row + String.valueOf((char) ('A' + i))); // "1A", "20L", "25P"
-                            return seat;
-                        }))
-                .toList();
+    private void seedMoviesAndShowings() {
+        List<Movie> movies = List.of(
+                movieRepository.save(new Movie("Inception", 8880,
+                        "A thief who steals corporate secrets through dream-sharing technology.",
+                        "Christopher Nolan", 2010, LocalDate.of(2010, 7, 16), 13)),
+                movieRepository.save(new Movie("The Lion King", 7080,
+                        "A young lion prince flees his kingdom after his father's death.",
+                        "Roger Allers", 1994, LocalDate.of(1994, 6, 24), 0)),
+                movieRepository.save(new Movie("Parasite", 7920,
+                        "Greed and class discrimination threaten the newly formed relationship between two families.",
+                        "Bong Joon-ho", 2019, LocalDate.of(2019, 5, 30), 15)),
+                movieRepository.save(new Movie("Dune", 9300,
+                        "A noble family becomes embroiled in a war for control over the galaxy's most valuable asset.",
+                        "Denis Villeneuve", 2021, LocalDate.of(2021, 10, 22), 13)),
+                movieRepository.save(new Movie("The Matrix", 8160,
+                        "A computer hacker learns the truth about his reality and his role in the war against its controllers.",
+                        "Lana Wachowski", 1999, LocalDate.of(1999, 3, 31), 15))
+        );
+
+        List<Auditorium> auditoriums = List.of(
+                auditoriumRepository.save(new Auditorium("Hall 1")),
+                auditoriumRepository.save(new Auditorium("Hall 2")),
+                auditoriumRepository.save(new Auditorium("Hall 3"))
+        );
+
+        for (Auditorium auditorium : auditoriums) {
+            for (char row = 'A'; row <= 'F'; row++) {
+                for (int number = 1; number <= 10; number++) {
+                    seatRepository.save(new Seat(auditorium, "" + row + number));
+                }
+            }
+        }
+
+        List<LocalTime> timeSlots = List.of(LocalTime.of(15, 0), LocalTime.of(20, 30));
+
+        LocalDate startDate = LocalDate.now().plusDays(1); // start tomorrow, not today
+        int weeksToSeed = 13; // roughly 3 months
+        int showingCounter = 0;
+
+        for (int week = 0; week < weeksToSeed; week++) {
+            for (Movie movie : movies) {
+                for (int i = 0; i < 2; i++) { // two showings per movie per week
+                    LocalDate showingDate = startDate.plusWeeks(week).plusDays(i * 3L);
+                    LocalTime time = timeSlots.get(showingCounter % timeSlots.size());
+                    Auditorium auditorium = auditoriums.get(showingCounter % auditoriums.size());
+
+                    Showing showing = new Showing(movie, auditorium, LocalDateTime.of(showingDate, time));
+                    showingRepository.save(showing);
+
+                    showingCounter++;
+                }
+            }
+        }
+
+        System.out.println("Seeded " + showingCounter + " showings across " + movies.size() + " movies.");
     }
 }

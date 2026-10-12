@@ -76,7 +76,7 @@ public class BookingService {
                 }).toList();
         booking.setBookingSeats(bookedSeats);
 
-
+        // Hey David, I do not understand what this check does lol TODO: Explain please
         if (ticketTypeById.size() != ticketTypeById.size()) {
             // If there is not the same amount of seats then theres a mismatch in the DB
             throw new IllegalArgumentException("Unknown ticket type in request");
