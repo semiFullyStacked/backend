@@ -43,11 +43,15 @@ public class ProjectConfig {
         http.authorizeHttpRequests(auth ->
                         auth.requestMatchers("/admin/**").hasRole("Admin")
                                 .requestMatchers("/api/auth/me").permitAll()
-                                .requestMatchers("/login.html", "/css/**", "/js/**", "/error/**").permitAll()                              //.requestMatchers("/api/employees/**").hasRole("Employee")
-                                .requestMatchers("/api/ employees/**").denyAll()
+                                .requestMatchers("/login.html", "/css/**", "/js/**", "/error/**").permitAll()
+                                .requestMatchers("/api/employees/**").hasRole("Employee")
+                                .requestMatchers("/api/csrf-init").permitAll()
+                                .requestMatchers("/api/movies").permitAll()
+                                .requestMatchers("/api/showings").permitAll()
+                                .requestMatchers("/api/bookings").permitAll()
+                                .requestMatchers("/api/tickettypes").permitAll()
                                 .requestMatchers("/api/auditoriums/").hasRole("Employee")
-                                .requestMatchers("/api/payments/**").permitAll()
-                                .requestMatchers("/h2-console/**").hasRole("Admin")
+                                .requestMatchers("/api/payments").permitAll()
                                 .anyRequest().authenticated()
 
                 ).csrf(csrf -> csrf
