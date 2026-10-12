@@ -27,13 +27,13 @@ public class ProjectConfig {
     public void configAuthentication(AuthenticationManagerBuilder auth) {
         auth.jdbcAuthentication().passwordEncoder(new BCryptPasswordEncoder())
                 .dataSource(dataSource)
-                .usersByUsernameQuery("select name, password, enabled from users where name=?")
+                .usersByUsernameQuery("select email, password, enabled from users where email=?")
                 .authoritiesByUsernameQuery(
-                        "SELECT u.name, r.role_name " +
+                        "SELECT u.email, r.role_name " +
                                 "FROM users u " +
                                 "JOIN user_roles ur ON u.id = ur.user_id " +
                                 "JOIN role r ON ur.role_id = r.id " +
-                                "WHERE u.name = ?"
+                                "WHERE u.email = ?"
                 )
         ;
     }
@@ -41,26 +41,24 @@ public class ProjectConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
         http.authorizeHttpRequests(auth ->
-                        auth.requestMatchers("/admin/**").hasRole("Admin")
+                        auth.requestMatchers("/admin/**").hasAuthority("Admin")
                                 .requestMatchers("/api/auth/me").permitAll()
+                                .requestMatchers("/api/reservation/reserve/**").permitAll()
                                 .requestMatchers("/login.html", "/css/**", "/js/**", "/error/**").permitAll()
-                                .requestMatchers("/api/employees/**").hasRole("Employee")
+                                .requestMatchers("/api/employees/**").hasAuthority("Employee")
                                 .requestMatchers("/api/csrf-init").permitAll()
-                                .requestMatchers("/api/movies").permitAll()
-                                .requestMatchers("/api/showings").permitAll()
-                                .requestMatchers("/api/bookings").permitAll()
-                                .requestMatchers("/api/tickettypes").permitAll()
-                                .requestMatchers("/api/auditoriums/").hasRole("Employee")
-                                .requestMatchers("/api/payments").permitAll()
+                                .requestMatchers("/api/movies/**").permitAll()
+                                .requestMatchers("/api/showings/**").permitAll()
+                                .requestMatchers("/api/bookings/**").permitAll()
+                                .requestMatchers("/api/tickettypes/**").permitAll()
+                                .requestMatchers("/api/auditoriums/**").hasAuthority("Employee")
+                                .requestMatchers("/api/payments/**").permitAll()
                                 .anyRequest().authenticated()
 
                 ).csrf(csrf -> csrf
                         .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
                         .csrfTokenRequestHandler(new CsrfTokenRequestAttributeHandler()))
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
-                .exceptionHandling(exceptionHandling -> {
-                    exceptionHandling.accessDeniedPage("/error/403.html");
-                })
                 .formLogin(form -> {
                     form.loginProcessingUrl("/login")
                             .defaultSuccessUrl("/", true)
