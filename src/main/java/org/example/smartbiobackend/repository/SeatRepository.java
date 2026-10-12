@@ -14,4 +14,5 @@ public interface SeatRepository extends JpaRepository<Seat, Integer> {
     Seat findBySeatCode(String seatCode);
 
     Seat findBySeatCodeAndAuditorium_Id(String s, int id);
+    List<Seat> findByAuditorium_Id(int auditoriumId);
 }
