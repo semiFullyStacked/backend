@@ -9,8 +9,8 @@ Selve siden kan ses her: [web app](https://frontend.gentlesmoke-03ba2725.swedenc
 Systemet tager udgangspunkt i en lille, lokal biograf:
 
 - To biografsale
-- Fire medarbejdere
-- Salg af billetter, popcorn og andre varer i caféen
+- Salg af billetter
+- Forskellige medarbejder roller (rengøring, admin, management m.m)
 
 Målet er at give biografen ét samlet system, som understøtter den daglige drift.
 
