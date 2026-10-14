@@ -10,7 +10,7 @@ env:
 
 jobs:
   java-test:
-    uses: ./.github/workflows/build-and-test.yml
+    uses: ./.github/workflows/run-tests.yml
   # Build & push Docker image (after tests pass)
   build-and-push:
     needs: java-test
