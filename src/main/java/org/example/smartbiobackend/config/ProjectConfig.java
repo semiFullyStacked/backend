@@ -46,13 +46,14 @@ public class ProjectConfig {
                                 .requestMatchers("/api/auth/me").permitAll()
                                 .requestMatchers("/api/reservation/reserve/**").permitAll()
                                 .requestMatchers("/login.html", "/css/**", "/js/**", "/error/**").permitAll()
-                                .requestMatchers("/api/employees/**").hasAuthority("Employee")
-                                .requestMatchers("/api/csrf-init").permitAll()
-                                .requestMatchers("/api/movies/**").permitAll()
-                                .requestMatchers(HttpMethod.GET, "/api/showings/**").permitAll()
+                                .requestMatchers("/api/employees/**").hasAnyAuthority("Employee", "Admin", "Manager")
+                                .requestMatchers("/api/auditoriums/**").hasAnyAuthority("Employee", "Admin", "Manager")
                                 .requestMatchers("/api/bookings/**").permitAll()
+                                // .requestMatchers("/api/bookings/**").hasAnyAuthority("Employee", "Admin", "Manager")
+                                .requestMatchers(HttpMethod.GET,"/api/csrf-init").permitAll()
+                                .requestMatchers(HttpMethod.GET,"/api/movies/**").permitAll()
+                                .requestMatchers(HttpMethod.GET, "/api/showings/**").permitAll()
                                 .requestMatchers(HttpMethod.GET, "/api/tickettypes/**").permitAll()
-                                .requestMatchers("/api/auditoriums/**").hasAuthority("Employee")
                                 .requestMatchers("/api/payments/**").permitAll()
                                 .anyRequest().authenticated()
 
@@ -62,7 +63,6 @@ public class ProjectConfig {
                 .addFilterAfter(new CsrfCookieFilter(), BasicAuthenticationFilter.class)
                 .formLogin(form -> {
                     form.loginProcessingUrl("/login")
-                            .defaultSuccessUrl("/", true)
                             .successHandler((req, res, auth) -> res.setStatus(200))
                             .failureHandler((req, res, ex) -> res.setStatus(401))
                             .permitAll();
