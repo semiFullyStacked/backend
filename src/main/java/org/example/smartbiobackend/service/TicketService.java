@@ -1,5 +1,6 @@
 package org.example.smartbiobackend.service;
 
+import org.example.smartbiobackend.exceptions.BookingNotFound;
 import org.example.smartbiobackend.model.Booking;
 import org.example.smartbiobackend.model.dto.TicketDTO;
 import org.example.smartbiobackend.model.dto.TicketSeatDTO;
@@ -22,8 +23,7 @@ public class TicketService {
 
     public TicketDTO getTicket(int bookingId) {
         Booking booking = bookingRepository.findById(bookingId)
-                .orElseThrow(() -> new ResponseStatusException(
-                        HttpStatus.NOT_FOUND, "No booking with id " + bookingId));
+                .orElseThrow(() -> new BookingNotFound("No booking with id " + bookingId));
 
         String movieTitle = booking.getShowing().getMovie().getName();
         LocalDateTime showingStart = booking.getShowing().getStartTime();
